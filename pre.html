@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<!--
+  제주옵서 발표 슬라이드 (TechNexus 템플릿 스타일)
+  좌우 화살표 / Space / 클릭으로 슬라이드 이동, F 전체화면
+-->
+<html class="light" lang="ko">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>제주옵서 - 제주 한달살이 앱 소개</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700;800&amp;family=Noto+Sans+KR:wght@300;400;500;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "on-primary": "#ffffff",
+          "on-tertiary-fixed": "#001f27",
+          "on-secondary-fixed-variant": "#444749",
+          "outline": "#737685",
+          "surface-container-high": "#e0e8ff",
+          "on-background": "#041b3c",
+          "on-primary-fixed-variant": "#0040a2",
+          "primary-fixed": "#dae2ff",
+          "on-error-container": "#93000a",
+          "surface-container-highest": "#d7e2ff",
+          "inverse-primary": "#b2c5ff",
+          "primary-fixed-dim": "#b2c5ff",
+          "surface-variant": "#d7e2ff",
+          "on-error": "#ffffff",
+          "tertiary-container": "#006477",
+          "surface-dim": "#cadaff",
+          "secondary-fixed-dim": "#c5c6c8",
+          "on-tertiary-fixed-variant": "#004e5d",
+          "inverse-surface": "#1d3052",
+          "surface-container-low": "#f1f3ff",
+          "surface-container": "#e8edff",
+          "primary-container": "#0052cc",
+          "on-surface-variant": "#434654",
+          "surface-bright": "#f9f9ff",
+          "background": "#f9f9ff",
+          "surface": "#f9f9ff",
+          "on-secondary": "#ffffff",
+          "on-secondary-fixed": "#191c1e",
+          "inverse-on-surface": "#edf0ff",
+          "tertiary": "#004b59",
+          "outline-variant": "#c3c6d6",
+          "surface-container-lowest": "#ffffff",
+          "secondary-container": "#dee0e2",
+          "error": "#ba1a1a",
+          "error-container": "#ffdad6",
+          "on-primary-container": "#c4d2ff",
+          "on-secondary-container": "#606365",
+          "primary": "#003d9b",
+          "secondary": "#5c5f60",
+          "surface-tint": "#0c56d0",
+          "on-primary-fixed": "#001848",
+          "tertiary-fixed": "#afecff",
+          "secondary-fixed": "#e1e2e4",
+          "on-tertiary": "#ffffff",
+          "on-tertiary-container": "#76e2ff",
+          "on-surface": "#041b3c",
+          "tertiary-fixed-dim": "#48d7f9"
+        },
+        "borderRadius": { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" },
+        "spacing": { "xl": "80px", "container-max": "1200px", "base": "8px", "sm": "12px", "md": "24px", "lg": "48px", "xs": "4px", "gutter": "24px" },
+        "fontFamily": {
+          "body-lg": ["Noto Sans KR", "sans-serif"],
+          "body-md": ["Noto Sans KR", "sans-serif"],
+          "display-lg-mobile": ["Hanken Grotesk", "Noto Sans KR", "sans-serif"],
+          "display-lg": ["Hanken Grotesk", "Noto Sans KR", "sans-serif"],
+          "label-sm": ["JetBrains Mono", "monospace"],
+          "headline-md": ["Hanken Grotesk", "Noto Sans KR", "sans-serif"]
+        },
+        "fontSize": {
+          "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+          "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+          "display-lg-mobile": ["40px", {"lineHeight": "1.2", "fontWeight": "700"}],
+          "display-lg": ["64px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+          "label-sm": ["12px", {"lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "500"}],
+          "headline-md": ["32px", {"lineHeight": "1.3", "fontWeight": "600"}]
+        }
+      },
+    },
+  }
+</script>
+<style>
+  body { background-color: #f9f9ff; color: #041b3c; overflow-x: hidden; }
+  .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; vertical-align: middle; }
+  .hero-pattern { background-image: radial-gradient(circle at 2px 2px, #e8edff 1px, transparent 0); background-size: 40px 40px; }
+  .glass-panel { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.3); }
+  .tonal-gradient { background: radial-gradient(circle at center, #e8edff 0%, #f9f9ff 100%); }
+  @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-20px); } 100% { transform: translateY(0px); } }
+  .animate-float { animation: float 6s ease-in-out infinite; }
+
+  /* ===== 슬라이드 덱 ===== */
+  .slide { display: none; min-height: 100vh; flex-direction: column; }
+  .slide.active { display: flex; }
+  /* 슬라이드 네비게이션 */
+  #deck-nav {
+    position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+    z-index: 100; display: flex; align-items: center; gap: 14px;
+    background: rgba(255,255,255,0.82); backdrop-filter: blur(10px);
+    border: 1px solid #c3c6d6; border-radius: 999px; padding: 8px 16px;
+    box-shadow: 0 8px 24px rgba(0,61,155,0.12);
+  }
+  #deck-nav button { display: flex; cursor: pointer; color: #003d9b; background: transparent; border: 0; }
+  #deck-nav button:disabled { opacity: 0.3; cursor: default; }
+  .dot { width: 8px; height: 8px; border-radius: 999px; background: #c3c6d6; transition: all 0.25s; cursor: pointer; }
+  .dot.on { width: 24px; background: #003d9b; }
+  @media print { #deck-nav { display: none; } .slide { display: flex !important; page-break-after: always; } }
+</style>
+</head>
+<body class="font-body-md text-body-md antialiased">
+
+<!-- ============================================================= -->
+<!-- 슬라이드 1 · 표지 -->
+<!-- ============================================================= -->
+<section class="slide active" data-slide="0">
+  <nav class="fixed top-0 w-full z-50 flex justify-between items-center px-xl py-sm max-w-container-max mx-auto bg-surface-container-lowest border-b border-outline-variant">
+    <div class="font-headline-md text-headline-md font-bold text-primary">제주옵서</div>
+    <div class="hidden md:flex gap-lg">
+      <a class="font-body-md text-body-md text-primary border-b-2 border-primary pb-1" href="#">소개</a>
+      <a class="font-body-md text-body-md text-on-secondary-fixed-variant hover:text-primary transition-colors duration-200" href="#">기능</a>
+      <a class="font-body-md text-body-md text-on-secondary-fixed-variant hover:text-primary transition-colors duration-200" href="#">기대효과</a>
+      <a class="font-body-md text-body-md text-on-secondary-fixed-variant hover:text-primary transition-colors duration-200" href="#">연락처</a>
+    </div>
+    <button class="bg-primary text-on-primary px-md py-xs rounded-lg font-body-md cursor-pointer active:opacity-70 transition-opacity">데모 보기</button>
+  </nav>
+
+  <main class="relative flex-grow flex items-center justify-center overflow-hidden pt-[80px]">
+    <div class="absolute inset-0 z-0 hero-pattern opacity-50"></div>
+    <div class="absolute top-[-10%] right-[-10%] w-[50vw] h-[50vw] bg-primary-fixed opacity-20 rounded-full blur-[120px]"></div>
+    <div class="absolute bottom-[-10%] left-[-10%] w-[40vw] h-[40vw] bg-tertiary-fixed opacity-15 rounded-full blur-[100px]"></div>
+
+    <div class="container mx-auto px-xl z-10 relative">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-lg items-center">
+        <!-- 텍스트 -->
+        <div class="md:col-span-7 flex flex-col items-start gap-md">
+          <div class="bg-primary-container/10 px-sm py-xs rounded-full flex items-center gap-xs">
+            <span class="material-symbols-outlined text-primary text-base" style="font-variation-settings:'FILL' 1;">partly_cloudy_day</span>
+            <span class="font-label-sm text-label-sm text-primary uppercase tracking-widest">제주 한달살이 · REAL-TIME</span>
+          </div>
+          <h1 class="font-display-lg text-display-lg-mobile md:text-display-lg text-primary max-w-2xl">
+            제주옵서
+          </h1>
+          <p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl">
+            제주 장기체류자를 위한 <b class="text-primary">실시간 날씨 + 현장 꿀팁</b> 기반 "오늘 뭐하지?" 추천 앱.
+            지금 이 순간, 내 위치에서 갈 만한 곳을 제주 현지의 생생한 정보로 알려드립니다.
+          </p>
+          <div class="flex flex-col sm:flex-row gap-md mt-sm">
+            <button class="bg-primary text-on-primary px-lg py-md rounded-lg font-headline-md flex items-center gap-sm hover:shadow-lg transition-all active:scale-[0.98]">
+              시작하기 <span class="material-symbols-outlined">arrow_forward</span>
+            </button>
+            <button class="border border-outline px-lg py-md rounded-lg font-headline-md text-on-surface hover:bg-surface-container transition-all">
+              데모 보기
+            </button>
+          </div>
+        </div>
+
+        <!-- 비주얼: 앱 미리보기 카드 -->
+        <div class="md:col-span-5 relative">
+          <div class="relative w-full aspect-square flex items-center justify-center">
+            <div class="absolute inset-0 bg-gradient-to-br from-primary-container/20 to-tertiary-container/10 rounded-[40px] rotate-3 transform"></div>
+            <div class="relative w-full h-full glass-panel rounded-[40px] p-lg shadow-2xl flex flex-col justify-between border-white/50 animate-float">
+              <div class="flex justify-between items-start">
+                <div class="bg-white/80 p-sm rounded-xl shadow-sm">
+                  <span class="material-symbols-outlined text-primary text-4xl" style="font-variation-settings:'FILL' 1;">explore</span>
+                </div>
+                <div class="text-right">
+                  <div class="font-label-sm text-label-sm text-primary-container">오늘의 추천</div>
+                  <div class="font-headline-md text-primary font-bold">애월읍</div>
+                </div>
+              </div>
+              <div class="space-y-sm">
+                <div class="h-2 w-2/3 bg-primary-fixed rounded-full"></div>
+                <div class="h-2 w-full bg-outline-variant/30 rounded-full"></div>
+                <div class="h-2 w-3/4 bg-outline-variant/30 rounded-full"></div>
+              </div>
+              <div class="grid grid-cols-2 gap-sm">
+                <div class="bg-primary p-md rounded-2xl flex flex-col gap-xs">
+                  <span class="material-symbols-outlined text-on-primary">rainy</span>
+                  <span class="font-label-sm text-label-sm text-primary-fixed">비올때갈곳</span>
+                </div>
+                <div class="bg-surface-container-highest p-md rounded-2xl flex flex-col gap-xs">
+                  <span class="material-symbols-outlined text-primary">local_parking</span>
+                  <span class="font-label-sm text-label-sm text-on-surface-variant">주차편한곳</span>
+                </div>
+              </div>
+            </div>
+            <div class="absolute -top-10 -right-5 w-24 h-24 bg-white rounded-full shadow-xl flex items-center justify-center animate-float" style="animation-delay:1s;">
+              <span class="material-symbols-outlined text-tertiary text-3xl" style="font-variation-settings:'FILL' 1;">tips_and_updates</span>
+            </div>
+            <div class="absolute -bottom-5 -left-10 w-32 h-16 glass-panel rounded-full shadow-lg flex items-center justify-center gap-sm px-md animate-float" style="animation-delay:2s;">
+              <div class="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+              <span class="font-label-sm text-label-sm">현장 제보 LIVE</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="w-full px-xl py-md flex flex-col md:flex-row justify-between items-center gap-md bg-surface-container-low border-t border-outline-variant">
+    <div class="font-headline-md text-headline-md font-bold text-primary">제주옵서</div>
+    <p class="font-label-sm text-label-sm text-on-secondary-fixed-variant">© 2026 Jeju-opseo. 제주 한달살이, 오늘 뭐하지?</p>
+  </footer>
+</section>
+
+<!-- ============================================================= -->
+<!-- 슬라이드 2 · 서비스 개요 -->
+<!-- ============================================================= -->
+<section class="slide" data-slide="1">
+  <header class="fixed top-0 w-full z-50 flex justify-between items-center px-xl py-sm max-w-container-max mx-auto bg-surface-container-lowest border-b border-outline-variant">
+    <div class="font-headline-md text-headline-md font-bold text-primary">제주옵서</div>
+    <nav class="hidden md:flex items-center gap-lg">
+      <a href="#" class="font-body-md text-body-md text-primary border-b-2 border-primary pb-1">소개</a>
+      <a href="#" class="font-body-md text-body-md text-on-secondary-fixed-variant hover:text-primary transition-colors duration-200">기능</a>
+      <a href="#" class="font-body-md text-body-md text-on-secondary-fixed-variant hover:text-primary transition-colors duration-200">기대효과</a>
+      <a href="#" class="font-body-md text-body-md text-on-secondary-fixed-variant hover:text-primary transition-colors duration-200">연락처</a>
+    </nav>
+    <button class="bg-primary-container text-on-primary font-body-md text-body-md px-md py-xs rounded hover:opacity-90 active:opacity-70 transition-all cursor-pointer">데모 보기</button>
+  </header>
+
+  <main class="flex-grow pt-32 pb-xl px-xl max-w-container-max mx-auto w-full">
+    <div class="mb-lg flex items-center gap-md border-b border-outline-variant pb-md">
+      <span class="font-label-sm text-label-sm text-primary tracking-widest uppercase">Overview</span>
+      <h1 class="font-headline-md text-headline-md text-on-surface">01. 서비스 개요</h1>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-xl items-center">
+      <!-- 폰 목업 -->
+      <div class="md:col-span-5 relative flex justify-center items-center">
+        <div class="relative w-full max-w-[320px] aspect-[9/19.5] bg-inverse-surface rounded-[3rem] border-[8px] border-on-background shadow-2xl overflow-hidden">
+          <div class="absolute top-0 left-1/2 -translate-x-1/2 w-1/3 h-6 bg-on-background rounded-b-2xl z-20"></div>
+          <div class="w-full h-full bg-surface-container-low relative flex flex-col">
+            <!-- 목업 상단 -->
+            <div class="bg-primary px-md pt-10 pb-md text-on-primary">
+              <div class="font-label-sm text-label-sm text-primary-fixed">오늘의 추천 · 애월읍</div>
+              <div class="flex items-center gap-sm mt-xs">
+                <span class="material-symbols-outlined text-tertiary-fixed-dim" style="font-variation-settings:'FILL' 1;">partly_cloudy_day</span>
+                <span class="font-headline-md text-2xl font-bold">구름조금 22°</span>
+              </div>
+            </div>
+            <!-- 목업 카드들 -->
+            <div class="p-md space-y-sm flex-grow">
+              <div class="bg-surface-container-lowest p-md rounded-xl border border-outline-variant shadow-sm">
+                <div class="flex items-center gap-xs mb-xs">
+                  <span class="material-symbols-outlined text-primary text-lg" style="font-variation-settings:'FILL' 1;">place</span>
+                  <span class="font-body-md font-bold text-on-surface text-sm">한담해안산책로</span>
+                </div>
+                <div class="flex gap-xs flex-wrap">
+                  <span class="text-[10px] px-2 py-0.5 rounded-full bg-surface-container-high text-primary">#산책</span>
+                  <span class="text-[10px] px-2 py-0.5 rounded-full bg-surface-container-high text-primary">#주차편함</span>
+                </div>
+              </div>
+              <div class="bg-surface-container-lowest p-md rounded-xl border border-outline-variant shadow-sm opacity-80">
+                <div class="flex items-center gap-xs mb-xs">
+                  <span class="material-symbols-outlined text-primary text-lg" style="font-variation-settings:'FILL' 1;">local_cafe</span>
+                  <span class="font-body-md font-bold text-on-surface text-sm">비 오면 여기, 애월 카페</span>
+                </div>
+                <div class="flex gap-xs flex-wrap">
+                  <span class="text-[10px] px-2 py-0.5 rounded-full bg-surface-container-high text-primary">#비올때갈곳</span>
+                </div>
+              </div>
+            </div>
+            <!-- 실시간 동기화 오버레이 -->
+            <div class="absolute bottom-8 left-1/2 -translate-x-1/2 w-[85%] bg-surface-container-lowest p-md rounded-xl border border-outline-variant shadow-lg">
+              <div class="flex items-center gap-sm mb-xs">
+                <span class="material-symbols-outlined text-primary" style="font-variation-settings:'FILL' 1;">sync</span>
+                <span class="font-label-sm text-on-surface font-bold">현장 제보 실시간 반영</span>
+              </div>
+              <div class="h-1.5 w-full bg-surface-container rounded-full overflow-hidden">
+                <div class="h-full bg-primary-container w-3/4"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 내용 -->
+      <div class="md:col-span-7 space-y-lg">
+        <div class="space-y-sm">
+          <div class="flex items-center gap-xs text-primary">
+            <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">rocket_launch</span>
+            <span class="font-label-sm text-label-sm uppercase tracking-tighter">Our Mission</span>
+          </div>
+          <h2 class="font-display-lg text-headline-md text-primary leading-tight">제주에서의 하루하루를<br>현지의 실시간 정보로 채웁니다.</h2>
+          <p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">
+            제주옵서는 관광객용 정보가 아닌 <b class="text-primary">지금 이 순간 제주에 사는 사람</b>을 위한 앱입니다.
+            변덕스러운 제주 날씨와 파편화된 정보 속에서 "오늘 뭐하지?"라는 고민을 데이터로 해결합니다.
+          </p>
+        </div>
+
+        <div class="space-y-md">
+          <div class="flex items-start gap-md group">
+            <div class="mt-1 w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center text-primary shrink-0 transition-colors group-hover:bg-primary group-hover:text-on-primary">
+              <span class="material-symbols-outlined">cloudy_snowing</span>
+            </div>
+            <div class="space-y-xs">
+              <h3 class="font-body-lg font-bold text-on-surface">기존의 문제: 변덕스러운 날씨 &amp; 관광 정보의 한계</h3>
+              <p class="font-body-md text-on-secondary-fixed-variant">한라산·해안·중산간의 날씨가 제각각이고, 검색되는 건 몇 년 전 관광 후기뿐. 지금 비가 오는지, 주차가 되는지는 아무도 알려주지 않습니다.</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-md group">
+            <div class="mt-1 w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center text-primary shrink-0 transition-colors group-hover:bg-primary group-hover:text-on-primary">
+              <span class="material-symbols-outlined">groups</span>
+            </div>
+            <div class="space-y-xs">
+              <h3 class="font-body-lg font-bold text-on-surface">해결책: 현장 제보 + 실시간 날씨 기반 추천</h3>
+              <p class="font-body-md text-on-secondary-fixed-variant">장기체류자들이 직접 올리는 GPS 검증된 현장 날씨·꿀팁을, 기상청 백업 데이터와 결합해 "지금 갈 만한 곳"을 자동 추천합니다.</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-md group">
+            <div class="mt-1 w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center text-primary shrink-0 transition-colors group-hover:bg-primary group-hover:text-on-primary">
+              <span class="material-symbols-outlined">explore</span>
+            </div>
+            <div class="space-y-xs">
+              <h3 class="font-body-lg font-bold text-on-surface">기대 효과: 매일 새로운 제주 발견</h3>
+              <p class="font-body-md text-on-secondary-fixed-variant">안 가본 곳·가까운 곳·꿀팁 많은 곳을 우선 추천해, 한달살이 내내 지루할 틈 없이 제주를 알차게 즐길 수 있습니다.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="w-full px-xl py-md flex flex-col md:flex-row justify-between items-center gap-md bg-surface-container-low border-t border-outline-variant">
+    <div class="font-headline-md text-headline-md font-bold text-primary">제주옵서</div>
+    <span class="font-label-sm text-label-sm text-on-secondary-fixed-variant">© 2026 Jeju-opseo. All rights reserved.</span>
+  </footer>
+</section>
+
+<!-- ============================================================= -->
+<!-- 슬라이드 3 · 주요 기능 -->
+<!-- ============================================================= -->
+<section class="slide" data-slide="2">
+  <header class="fixed top-0 w-full z-50 flex justify-between items-center px-xl py-sm max-w-container-max mx-auto bg-surface-container-lowest border-b border-outline-variant">
+    <div class="font-headline-md text-headline-md font-bold text-primary">제주옵서</div>
+    <nav class="hidden md:flex items-center gap-lg">
+      <a href="#" class="font-body-md text-body-md text-on-secondary-fixed-variant hover:text-primary transition-colors duration-200">소개</a>
+      <a href="#" class="font-body-md text-body-md text-primary border-b-2 border-primary pb-1">기능</a>
+      <a href="#" class="font-body-md text-body-md text-on-secondary-fixed-variant hover:text-primary transition-colors duration-200">기대효과</a>
+      <a href="#" class="font-body-md text-body-md text-on-secondary-fixed-variant hover:text-primary transition-colors duration-200">연락처</a>
+    </nav>
+    <button class="bg-primary-container text-on-primary px-md py-sm rounded-lg font-body-md hover:opacity-90 transition-opacity active:opacity-70">데모 보기</button>
+  </header>
+
+  <main class="flex-grow pt-32 pb-xl px-xl max-w-container-max mx-auto w-full">
+    <header class="mb-lg border-b border-outline-variant pb-md flex flex-col md:flex-row md:items-end md:justify-between gap-base">
+      <div>
+        <span class="font-label-sm text-label-sm text-primary uppercase tracking-widest block mb-xs">Core Features</span>
+        <h1 class="font-headline-md text-headline-md text-on-background">02. 주요 기능</h1>
+      </div>
+      <p class="font-body-md text-on-surface-variant max-w-md">제주옵서의 핵심은 <b class="text-primary">현장성</b>입니다. 실시간 제보와 위치 기반 추천으로 "지금, 여기"에 맞는 답을 줍니다.</p>
+    </header>
+
+    <section class="grid grid-cols-1 md:grid-cols-3 gap-md">
+      <!-- 기능 1 -->
+      <div class="bg-surface-container-lowest border border-outline-variant p-lg rounded-xl flex flex-col items-start gap-md hover:bg-surface-container-low transition-colors">
+        <div class="w-12 h-12 flex items-center justify-center rounded-lg bg-surface-container-high text-primary">
+          <span class="material-symbols-outlined text-[28px]" style="font-variation-settings:'FILL' 1;">stars</span>
+        </div>
+        <div class="space-y-sm">
+          <h3 class="font-headline-md text-[24px] font-bold text-on-surface">오늘의 추천 홈</h3>
+          <p class="font-body-md text-on-surface-variant">현재 위치의 실시간 날씨 + 안 가본 곳 + 근접성 + 꿀팁 밀도를 종합해 갈 곳을 자동 추천. 마음에 안 들면 <b>리롤</b>로 새 추천을 받습니다.</p>
+        </div>
+        <div class="mt-auto pt-md">
+          <code class="font-label-sm text-label-sm bg-surface-container-high px-2 py-1 rounded text-primary">GET /</code>
+        </div>
+      </div>
+      <!-- 기능 2 -->
+      <div class="bg-surface-container-lowest border border-outline-variant p-lg rounded-xl flex flex-col items-start gap-md hover:bg-surface-container-low transition-colors">
+        <div class="w-12 h-12 flex items-center justify-center rounded-lg bg-surface-container-high text-primary">
+          <span class="material-symbols-outlined text-[28px]" style="font-variation-settings:'FILL' 1;">add_a_photo</span>
+        </div>
+        <div class="space-y-sm">
+          <h3 class="font-headline-md text-[24px] font-bold text-on-surface">실시간 날씨 제보 &amp; 피드</h3>
+          <p class="font-body-md text-on-surface-variant">읍면동 단위 실시간 날씨 피드. 현장 사진 + 원터치 날씨 태그로 제보하며, <b>GPS 현장 검증</b>과 2시간 자동 만료로 신선도를 지킵니다.</p>
+        </div>
+        <div class="mt-auto pt-md">
+          <code class="font-label-sm text-label-sm bg-surface-container-high px-2 py-1 rounded text-primary">/feed/ · /checkin/</code>
+        </div>
+      </div>
+      <!-- 기능 3 -->
+      <div class="bg-surface-container-lowest border border-outline-variant p-lg rounded-xl flex flex-col items-start gap-md hover:bg-surface-container-low transition-colors">
+        <div class="w-12 h-12 flex items-center justify-center rounded-lg bg-surface-container-high text-primary">
+          <span class="material-symbols-outlined text-[28px]" style="font-variation-settings:'FILL' 1;">sell</span>
+        </div>
+        <div class="space-y-sm">
+          <h3 class="font-headline-md text-[24px] font-bold text-on-surface">태그 탐색 &amp; 현장 꿀팁</h3>
+          <p class="font-body-md text-on-surface-variant">'비올때갈곳·주차편한곳' 등 상황 태그를 AND로 조합해 탐색. 주차·비용·혼잡도 꿀팁을 남기고 <b>도움됐어요</b>로 좋은 정보를 상위 노출합니다.</p>
+        </div>
+        <div class="mt-auto pt-md">
+          <code class="font-label-sm text-label-sm bg-surface-container-high px-2 py-1 rounded text-primary">/explore/ · /tips/</code>
+        </div>
+      </div>
+    </section>
+
+    <div class="mt-lg relative w-full overflow-hidden rounded-xl bg-surface-container-high border border-outline-variant">
+      <div class="flex flex-col items-center justify-center p-lg text-center gap-sm">
+        <h2 class="font-headline-md text-headline-md text-on-background">기술 스택</h2>
+        <p class="font-body-lg text-on-surface-variant max-w-2xl mx-auto">Django + Django 템플릿으로 구현. 기상청 단기예보 API·카카오맵 장소 검색을 연동하고, 제보가 없으면 기상청 백업 데이터로 자동 폴백합니다.</p>
+        <div class="flex flex-wrap justify-center gap-sm mt-xs">
+          <span class="font-label-sm text-label-sm px-3 py-1.5 rounded-full bg-surface-container-lowest border border-outline-variant text-primary">Django</span>
+          <span class="font-label-sm text-label-sm px-3 py-1.5 rounded-full bg-surface-container-lowest border border-outline-variant text-primary">기상청 API</span>
+          <span class="font-label-sm text-label-sm px-3 py-1.5 rounded-full bg-surface-container-lowest border border-outline-variant text-primary">카카오맵</span>
+          <span class="font-label-sm text-label-sm px-3 py-1.5 rounded-full bg-surface-container-lowest border border-outline-variant text-primary">Geolocation</span>
+          <span class="font-label-sm text-label-sm px-3 py-1.5 rounded-full bg-surface-container-lowest border border-outline-variant text-primary">Render 배포</span>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="w-full px-xl py-md flex flex-col md:flex-row justify-between items-center gap-md bg-surface-container-low border-t border-outline-variant">
+    <div class="font-headline-md text-headline-md font-bold text-primary">제주옵서</div>
+    <p class="font-label-sm text-label-sm text-on-secondary-fixed-variant">© 2026 Jeju-opseo. All rights reserved.</p>
+  </footer>
+</section>
+
+<!-- ============================================================= -->
+<!-- 슬라이드 4 · 기대 효과 -->
+<!-- ============================================================= -->
+<section class="slide" data-slide="3">
+  <header class="fixed top-0 w-full z-50 flex justify-between items-center px-xl py-sm max-w-container-max mx-auto bg-surface-container-lowest border-b border-outline-variant">
+    <div class="font-headline-md text-headline-md font-bold text-primary">제주옵서</div>
+    <nav class="hidden md:flex gap-lg items-center">
+      <a href="#" class="font-body-md text-body-md text-on-secondary-fixed-variant hover:text-primary transition-colors duration-200">소개</a>
+      <a href="#" class="font-body-md text-body-md text-on-secondary-fixed-variant hover:text-primary transition-colors duration-200">기능</a>
+      <a href="#" class="font-body-md text-body-md text-primary border-b-2 border-primary pb-1">기대효과</a>
+      <a href="#" class="font-body-md text-body-md text-on-secondary-fixed-variant hover:text-primary transition-colors duration-200">연락처</a>
+    </nav>
+    <button class="bg-primary-container text-on-primary px-md py-sm rounded-lg font-body-md cursor-pointer active:opacity-70 transition-opacity">데모 보기</button>
+  </header>
+
+  <main class="flex-grow pt-32 pb-xl px-xl max-w-container-max mx-auto w-full">
+    <div class="mb-lg border-b border-outline-variant pb-base flex items-end justify-between">
+      <h1 class="font-headline-md text-headline-md text-primary tracking-tight">03. 기대 효과</h1>
+      <span class="font-label-sm text-label-sm text-outline uppercase tracking-widest">Value &amp; Impact</span>
+    </div>
+
+    <div class="grid grid-cols-12 gap-gutter">
+      <!-- 요약 -->
+      <div class="col-span-12 md:col-span-4 flex flex-col justify-center gap-md">
+        <div class="flex flex-col gap-sm">
+          <span class="font-label-sm text-label-sm text-primary uppercase bg-primary-fixed px-sm py-xs w-fit rounded-full">Why it works</span>
+          <h2 class="font-display-lg text-display-lg text-on-background leading-tight">현장이 만드는<br>선순환 구조</h2>
+        </div>
+        <p class="font-body-lg text-body-lg text-on-surface-variant max-w-md">
+          사용자가 곧 정보 제공자가 되는 커뮤니티 구조. 제보가 쌓일수록 추천이 정확해지고, 정확한 추천이 다시 제보를 부릅니다.
+        </p>
+      </div>
+
+      <!-- 3단계 -->
+      <div class="col-span-12 md:col-span-8 relative">
+        <div class="flex flex-col gap-lg">
+          <div class="group relative flex gap-md items-start p-md rounded-xl hover:bg-surface-container-low transition-colors duration-300">
+            <div class="z-10 flex-shrink-0 w-16 h-16 rounded-full bg-primary-container flex items-center justify-center text-on-primary shadow-lg group-hover:scale-110 transition-transform">
+              <span class="material-symbols-outlined text-[32px]">photo_camera</span>
+            </div>
+            <div class="flex flex-col gap-xs">
+              <span class="font-label-sm text-label-sm text-primary">STEP 01</span>
+              <h3 class="font-headline-md text-[24px] text-on-background">현장 제보로 데이터가 쌓인다</h3>
+              <p class="font-body-md text-body-md text-on-surface-variant">GPS로 검증된 실시간 날씨·꿀팁이 지역별로 축적됩니다. 오래된 정보는 자동 만료되어 항상 신선한 데이터만 남습니다.</p>
+            </div>
+            <div class="absolute left-11 top-24 w-[2px] h-12 bg-outline-variant hidden md:block"></div>
+          </div>
+
+          <div class="group relative flex gap-md items-start p-md rounded-xl hover:bg-surface-container-low transition-colors duration-300">
+            <div class="z-10 flex-shrink-0 w-16 h-16 rounded-full bg-surface-container-highest flex items-center justify-center text-primary shadow-md group-hover:scale-110 transition-transform border border-primary/20">
+              <span class="material-symbols-outlined text-[32px]">insights</span>
+            </div>
+            <div class="flex flex-col gap-xs">
+              <span class="font-label-sm text-label-sm text-primary">STEP 02</span>
+              <h3 class="font-headline-md text-[24px] text-on-background">추천이 정교해진다</h3>
+              <p class="font-body-md text-body-md text-on-surface-variant">날씨·위치·꿀팁 밀도를 반영한 추천 로직이 "지금 나에게 맞는 장소"를 정확히 제시합니다. 안 가본 곳 우선으로 매일 새롭습니다.</p>
+            </div>
+            <div class="absolute left-11 top-24 w-[2px] h-12 bg-outline-variant hidden md:block"></div>
+          </div>
+
+          <div class="group relative flex gap-md items-start p-md rounded-xl hover:bg-surface-container-low transition-colors duration-300">
+            <div class="z-10 flex-shrink-0 w-16 h-16 rounded-full bg-tertiary-container flex items-center justify-center text-on-tertiary shadow-lg group-hover:scale-110 transition-transform">
+              <span class="material-symbols-outlined text-[32px]">favorite</span>
+            </div>
+            <div class="flex flex-col gap-xs">
+              <span class="font-label-sm text-label-sm text-tertiary">STEP 03</span>
+              <h3 class="font-headline-md text-[24px] text-on-background">한달살이 만족도가 올라간다</h3>
+              <p class="font-body-md text-body-md text-on-surface-variant">실패 없는 나들이 경험이 쌓이고, 만족한 사용자가 다시 제보하며 커뮤니티가 성장하는 선순환이 완성됩니다.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 지표 카드 -->
+      <div class="col-span-12 grid grid-cols-1 md:grid-cols-3 gap-md mt-lg">
+        <div class="p-lg bg-surface-container rounded-xl border border-outline-variant flex flex-col gap-sm">
+          <span class="font-label-sm text-label-sm text-on-secondary-container">REAL-TIME</span>
+          <div class="flex items-baseline gap-xs">
+            <span class="font-display-lg text-[48px] text-primary">2h</span>
+            <span class="font-body-md text-on-surface-variant">신선도 보장</span>
+          </div>
+          <p class="font-body-md text-on-surface-variant opacity-80">제보 2시간 자동 만료로 항상 최신 현장 정보</p>
+        </div>
+        <div class="p-lg bg-surface-container-highest rounded-xl border border-primary/10 flex flex-col gap-sm">
+          <span class="font-label-sm text-label-sm text-on-secondary-container">DISCOVERY</span>
+          <div class="flex items-baseline gap-xs">
+            <span class="font-display-lg text-[48px] text-primary">4가지</span>
+            <span class="font-body-md text-on-surface-variant">추천 기준</span>
+          </div>
+          <p class="font-body-md text-on-surface-variant opacity-80">날씨·안 가본 곳·근접성·꿀팁 밀도 종합 추천</p>
+        </div>
+        <div class="p-lg rounded-xl border flex flex-col gap-sm bg-surface-container border-outline-variant">
+          <span class="font-label-sm text-label-sm text-on-tertiary-fixed-variant">TRUST</span>
+          <div class="flex items-baseline gap-xs">
+            <span class="font-display-lg text-[48px] text-tertiary">GPS</span>
+            <span class="font-body-md text-on-surface-variant">현장 검증</span>
+          </div>
+          <p class="font-body-md text-on-surface-variant opacity-80">1km 이내 실시간 위치 검증으로 신뢰도 확보</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="w-full px-xl py-md flex flex-col md:flex-row justify-between items-center gap-md bg-surface-container-low border-t border-outline-variant">
+    <div class="font-headline-md text-headline-md font-bold text-primary">제주옵서</div>
+    <div class="font-label-sm text-label-sm text-on-secondary-fixed-variant">© 2026 Jeju-opseo. All rights reserved.</div>
+  </footer>
+</section>
+
+<!-- ============================================================= -->
+<!-- 슬라이드 5 · 감사합니다 -->
+<!-- ============================================================= -->
+<section class="slide" data-slide="4">
+  <nav class="fixed top-0 w-full z-50 flex justify-between items-center px-xl py-sm max-w-container-max mx-auto bg-surface-container-lowest border-b border-outline-variant">
+    <div class="font-headline-md text-headline-md font-bold text-primary">제주옵서</div>
+    <div class="hidden md:flex gap-lg items-center">
+      <a class="font-body-md text-body-md text-on-secondary-fixed-variant hover:text-primary transition-colors duration-200" href="#">소개</a>
+      <a class="font-body-md text-body-md text-on-secondary-fixed-variant hover:text-primary transition-colors duration-200" href="#">기능</a>
+      <a class="font-body-md text-body-md text-on-secondary-fixed-variant hover:text-primary transition-colors duration-200" href="#">기대효과</a>
+      <a class="font-body-md text-body-md text-primary border-b-2 border-primary pb-1" href="#">연락처</a>
+    </div>
+    <button class="bg-primary-container text-on-primary px-md py-xs font-bold rounded-lg cursor-pointer active:opacity-70 transition-all">데모 보기</button>
+  </nav>
+
+  <main class="flex-grow flex items-center justify-center pt-[80px] tonal-gradient overflow-hidden relative">
+    <section class="relative z-10 w-full max-w-container-max px-md py-xl flex flex-col items-center text-center">
+      <div class="mb-lg">
+        <span class="material-symbols-outlined text-primary text-[64px]" style="font-variation-settings:'FILL' 1;">explore</span>
+      </div>
+      <div class="space-y-sm mb-lg">
+        <p class="font-label-sm text-label-sm text-primary uppercase tracking-[0.2em]">Jeju, one month stay</p>
+        <h1 class="font-display-lg text-display-lg-mobile md:text-display-lg text-primary font-extrabold">감사합니다</h1>
+        <div class="h-1 w-24 bg-primary mx-auto mt-md"></div>
+      </div>
+
+      <div class="max-w-2xl w-full bg-surface-container-lowest/80 backdrop-blur-md border border-outline-variant rounded-xl p-lg shadow-sm">
+        <h2 class="font-headline-md text-headline-md text-on-surface mb-md">제주옵서, 지금 만나보세요</h2>
+        <p class="font-body-lg text-body-lg text-on-surface-variant mb-lg">
+          제주 한달살이의 매일을 더 알차게. 실시간 날씨와 현장 꿀팁으로 "오늘 뭐하지?"를 해결하는 제주옵서를 직접 경험해 보세요.
+        </p>
+        <div class="flex flex-col md:flex-row gap-md justify-center items-center mb-lg">
+          <button class="w-full md:w-auto bg-primary-container text-on-primary font-bold px-lg py-md rounded-lg flex items-center justify-center gap-sm hover:-translate-y-0.5 hover:shadow-lg transition-all">
+            데모 시작하기 <span class="material-symbols-outlined">arrow_forward</span>
+          </button>
+          <button class="w-full md:w-auto border border-outline text-primary font-bold px-lg py-md rounded-lg hover:bg-surface-container transition-colors">
+            GitHub 저장소
+          </button>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-md border-t border-outline-variant pt-lg">
+          <div class="flex flex-col items-center">
+            <span class="material-symbols-outlined text-primary mb-xs">public</span>
+            <span class="font-label-sm text-label-sm text-on-surface-variant">데모 접속</span>
+            <p class="font-body-md text-on-surface font-bold">127.0.0.1:8000</p>
+          </div>
+          <div class="flex flex-col items-center">
+            <span class="material-symbols-outlined text-primary mb-xs">login</span>
+            <span class="font-label-sm text-label-sm text-on-surface-variant">데모 계정</span>
+            <p class="font-body-md text-on-surface font-bold">jeju1 / jejustay1</p>
+          </div>
+          <div class="flex flex-col items-center">
+            <span class="material-symbols-outlined text-primary mb-xs">cloud</span>
+            <span class="font-label-sm text-label-sm text-on-surface-variant">배포</span>
+            <p class="font-body-md text-on-surface font-bold">Render (render.yaml)</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="absolute -bottom-20 -left-20 w-96 h-96 bg-primary/5 rounded-full blur-[100px] pointer-events-none"></div>
+    <div class="absolute -top-20 -right-20 w-96 h-96 bg-tertiary/5 rounded-full blur-[100px] pointer-events-none"></div>
+  </main>
+
+  <footer class="w-full px-xl py-md flex flex-col md:flex-row justify-between items-center gap-md bg-surface-container-low border-t border-outline-variant">
+    <div class="font-headline-md text-headline-md font-bold text-primary">제주옵서</div>
+    <div class="font-label-sm text-label-sm text-on-secondary-fixed-variant">© 2026 Jeju-opseo Solutions. All rights reserved.</div>
+  </footer>
+</section>
+
+<!-- ===== 슬라이드 네비게이션 ===== -->
+<div id="deck-nav">
+  <button id="prev" aria-label="이전 슬라이드"><span class="material-symbols-outlined">chevron_left</span></button>
+  <div id="dots" style="display:flex; gap:8px; align-items:center;"></div>
+  <button id="next" aria-label="다음 슬라이드"><span class="material-symbols-outlined">chevron_right</span></button>
+</div>
+
+<script>
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const dotsWrap = document.getElementById('dots');
+  const prevBtn = document.getElementById('prev');
+  const nextBtn = document.getElementById('next');
+  let idx = 0;
+
+  slides.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 0 ? ' on' : '');
+    d.addEventListener('click', () => go(i));
+    dotsWrap.appendChild(d);
+  });
+  const dots = Array.from(dotsWrap.children);
+
+  function go(n) {
+    idx = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach((s, i) => s.classList.toggle('active', i === idx));
+    dots.forEach((d, i) => d.classList.toggle('on', i === idx));
+    prevBtn.disabled = idx === 0;
+    nextBtn.disabled = idx === slides.length - 1;
+    window.scrollTo(0, 0);
+  }
+  prevBtn.addEventListener('click', () => go(idx - 1));
+  nextBtn.addEventListener('click', () => go(idx + 1));
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); go(idx + 1); }
+    else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); go(idx - 1); }
+    else if (e.key === 'Home') go(0);
+    else if (e.key === 'End') go(slides.length - 1);
+    else if (e.key.toLowerCase() === 'f') {
+      if (!document.fullscreenElement) document.documentElement.requestFullscreen();
+      else document.exitFullscreen();
+    }
+  });
+  go(0);
+</script>
+</body>
+</html>
